@@ -1,4 +1,4 @@
-FROM idevs/nginx-php-fpm
+FROM aspro/nginx-php-fpm
 
 ADD rootfs.dev /
 ADD https://getcomposer.org/installer /tmp
