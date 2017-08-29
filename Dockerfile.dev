@@ -1,0 +1,8 @@
+FROM idevs/nginx-php-fpm
+
+ADD rootfs.dev /
+ADD https://getcomposer.org/installer /tmp
+
+RUN php /tmp/installer --install-dir=/usr/bin --filename=composer \
+    && composer global require hirak/prestissimo \
+    && rm -rf /tmp/*
