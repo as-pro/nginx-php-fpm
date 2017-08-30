@@ -74,6 +74,7 @@ ADD rootfs /
 RUN mkdir -p /app
 
 WORKDIR /app
+EXPOSE 80 9000
 ENTRYPOINT [ "/init" ]
 
 LABEL description="nginx + php image based on Alpine" \
