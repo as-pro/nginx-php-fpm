@@ -5,4 +5,5 @@ ADD https://getcomposer.org/installer /tmp
 
 RUN php /tmp/installer --install-dir=/usr/bin --filename=composer \
     && composer global require hirak/prestissimo \
+    && apk --no-cache add git openssh-client
     && rm -rf /tmp/*
