@@ -1,2 +1,3 @@
 #!/usr/bin/execlineb -P
+with-contenv
 /usr/local/sbin/php-fpm -Fy /usr/local/etc/php-fpm.d/www.conf
