@@ -1,36 +1,42 @@
 #!/usr/bin/with-contenv sh
 
-export TZ=${TZ:="Europe/Moscow"}
-export APP_UID=${APP_UID:=1000}
-export APP_GID=${APP_GID:=1000}
-export APP_DIR=${APP_DIR:="/app"}
-export APP_PUBLIC_DIR=${APP_PUBLIC_DIR:="${APP_DIR}/public"}
+set -a
 
-echo "export PWD=${APP_DIR}" >> /etc/profile.d/env.sh
+if [[ -f /run/secrets/.env ]]; then
+    source /run/secrets/.env
+fi
+
+APP_TZ=${APP_TZ:="Europe/Moscow"}
+APP_UID=${APP_UID:=1000}
+APP_GID=${APP_GID:=1000}
+APP_DIR=${APP_DIR:="/app"}
+APP_PUBLIC_DIR=${APP_PUBLIC_DIR:="${APP_DIR}/public"}
+
+echo "PWD=${APP_DIR}" >> /etc/profile.d/env.sh
 
 if [[ -n "${ENV}" ]]; then
-    export APP_ENV=${ENV}
+    APP_ENV=${ENV}
 else
-    export APP_ENV=${APP_ENV:="production"}
-    export ENV=${APP_ENV}
+    APP_ENV=${APP_ENV:="production"}
+    ENV=${APP_ENV}
 fi
 
 if [[ "${ENV}" = "production" ]]; then
-    export IS_PRODUCTION=1
-    export IS_NOT_PRODUCTION=0
+    IS_PRODUCTION=1
+    IS_NOT_PRODUCTION=0
 else
-    export IS_PRODUCTION=0
-    export IS_NOT_PRODUCTION=1
+    IS_PRODUCTION=0
+    IS_NOT_PRODUCTION=1
 fi
 
-export DOMAIN=${DOMAIN:=""}
-export SERVER_NAME=${DOMAIN:="_"}
-export REAL_IP_HEADER=${REAL_IP_HEADER:=1}
-export REAL_IP_FROM=${REAL_IP_FROM:=""}
-export HIDE_NGINX_HEADERS=${HIDE_NGINX_HEADERS:=$IS_PRODUCTION}
-export PHP_ERRORS=${PHP_ERRORS:="$IS_NOT_PRODUCTION"}
-export PHP_MEM_LIMIT=${PHP_MEM_LIMIT:="128M"}
-export PHP_POST_MAX_SIZE=${PHP_POST_MAX_SIZE:="100M"}
-export PHP_UPLOAD_MAX_FILESIZE=${PHP_UPLOAD_MAX_FILESIZE:="100M"}
+DOMAIN=${DOMAIN:=""}
+SERVER_NAME=${DOMAIN:="_"}
+REAL_IP_HEADER=${REAL_IP_HEADER:=1}
+REAL_IP_FROM=${REAL_IP_FROM:=""}
+HIDE_NGINX_HEADERS=${HIDE_NGINX_HEADERS:=$IS_PRODUCTION}
+PHP_ERRORS=${PHP_ERRORS:="$IS_NOT_PRODUCTION"}
+PHP_MEM_LIMIT=${PHP_MEM_LIMIT:="128M"}
+PHP_POST_MAX_SIZE=${PHP_POST_MAX_SIZE:="100M"}
+PHP_UPLOAD_MAX_FILESIZE=${PHP_UPLOAD_MAX_FILESIZE:="100M"}
 
 s6-dumpenv /var/run/s6/container_environment
