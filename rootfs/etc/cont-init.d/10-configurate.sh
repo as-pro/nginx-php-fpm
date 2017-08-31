@@ -25,7 +25,7 @@ variables_order = "EGPCS"
 memory_limit = $PHP_MEM_LIMIT
 post_max_size = $PHP_POST_MAX_SIZE
 upload_max_filesize = $PHP_UPLOAD_MAX_FILESIZE
-date.timezone = $TZ
+date.timezone = $APP_TZ
 PHP_VARS
 
 
