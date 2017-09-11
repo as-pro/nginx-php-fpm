@@ -1,5 +1,5 @@
-ARG NGINX_VER=1.13.5
-ARG PHP_VER=7.1.9
+ARG NGINX_VER=1.13
+ARG PHP_VER=7.1
 
 FROM nginx:${NGINX_VER}-alpine as nginx
 
@@ -45,7 +45,7 @@ RUN addgroup -S nginx \
     	libtool \
     	tzdata \
     	zlib-dev \
-    	libpq-dev \
+    	postgresql-dev \
 
      && cp /usr/share/zoneinfo/Europe/Moscow /etc/localtime \
 
