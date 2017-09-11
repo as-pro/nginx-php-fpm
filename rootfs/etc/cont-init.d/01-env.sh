@@ -1,10 +1,24 @@
 #!/usr/bin/with-contenv sh
 
 set -a
-
-if [[ -f /run/secrets/.env ]]; then
-    source /run/secrets/.env
+ENV_FILE=${ENV_FILE:=/.env}
+if [ -r $ENV_FILE ]; then
+    . $ENV_FILE
 fi
+
+
+set +a
+ENV_DIR=${ENV_DIR:=/var/env}
+if [ -d $ENV_DIR ]; then
+    for file in $ENV_DIR/* ; do
+        if [ -r $file ]; then
+            export "$(basename $file)"="$(cat $file)"
+        fi
+    done
+fi
+
+
+set -a
 
 APP_TZ=${APP_TZ:="Europe/Moscow"}
 APP_UID=${APP_UID:=1000}
@@ -12,7 +26,7 @@ APP_GID=${APP_GID:=1000}
 APP_DIR=${APP_DIR:="/app"}
 APP_PUBLIC_DIR=${APP_PUBLIC_DIR:="${APP_DIR}/public"}
 
-echo "PWD=${APP_DIR}" >> /etc/profile.d/env.sh
+PWD=$APP_DIR
 
 if [[ -n "${ENV}" ]]; then
     APP_ENV=${ENV}
