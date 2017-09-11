@@ -45,27 +45,28 @@ RUN addgroup -S nginx \
     	libtool \
     	tzdata \
     	zlib-dev \
-    	postgresql-dev \
 
-     && cp /usr/share/zoneinfo/Europe/Moscow /etc/localtime \
+    && apk add postgresql-dev \
 
-     # install php modules
-     && docker-php-ext-install \
-        pdo \
-        pdo_pgsql \
-        pdo_mysql \
-        pgsql \
-        mysqli \
-        json \
-        zip \
-        opcache \
+    && cp /usr/share/zoneinfo/Europe/Moscow /etc/localtime \
 
-     && pecl install xdebug redis \
-     && docker-php-ext-enable redis \
+    # install php modules
+    && docker-php-ext-install \
+       pdo \
+       pdo_pgsql \
+       pdo_mysql \
+       pgsql \
+       mysqli \
+       json \
+       zip \
+       opcache \
 
-     # remove build-dependencies
-     && apk del build-dependencies \
-     && rm -rf /var/cache/apk/*
+    && pecl install xdebug redis \
+    && docker-php-ext-enable redis \
+
+    # remove build-dependencies
+    && apk del build-dependencies \
+    && rm -rf /var/cache/apk/*
 
 
 ARG S6_OVERLAY_VER=1.20.0.0
