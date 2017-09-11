@@ -1,5 +1,5 @@
-ARG NGINX_VER=1.13.3
-ARG PHP_VER=7.1.8
+ARG NGINX_VER=1.13.5
+ARG PHP_VER=7.1.9
 
 FROM nginx:${NGINX_VER}-alpine as nginx
 
@@ -45,12 +45,16 @@ RUN addgroup -S nginx \
     	libtool \
     	tzdata \
     	zlib-dev \
+    	libpq-dev \
 
      && cp /usr/share/zoneinfo/Europe/Moscow /etc/localtime \
 
      # install php modules
      && docker-php-ext-install \
+        pdo \
+        pdo_pgsql \
         pdo_mysql \
+        pgsql \
         mysqli \
         json \
         zip \
