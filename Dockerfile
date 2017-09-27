@@ -46,9 +46,16 @@ RUN addgroup -S nginx \
     	tzdata \
     	zlib-dev \
 
-    && apk add postgresql-dev \
+    && apk add --no-cache --virtual .persistent-deps \
+        # for postgres
+        postgresql-dev \
+        # for intl extension
+        icu-dev \
 
     && cp /usr/share/zoneinfo/Europe/Moscow /etc/localtime \
+
+    && docker-php-ext-configure intl --enable-intl \
+    && docker-php-ext-configure pcntl --enable-pcntl \
 
     # install php modules
     && docker-php-ext-install \
@@ -60,6 +67,8 @@ RUN addgroup -S nginx \
        json \
        zip \
        opcache \
+       intl \
+       pcntl \
 
     && pecl install xdebug redis \
     && docker-php-ext-enable redis \
