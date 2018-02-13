@@ -1,5 +1,5 @@
 ARG NGINX_VER=1.13
-ARG PHP_VER=7.1
+ARG PHP_VER=7.2
 
 FROM nginx:${NGINX_VER}-alpine as nginx
 
@@ -85,7 +85,8 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
 
 ADD rootfs /
 
-RUN mkdir -p /app
+RUN find /usr/bin -type f -exec chmod +x {} \; \
+ && mkdir -p /app
 
 WORKDIR /app
 EXPOSE 80 9000
