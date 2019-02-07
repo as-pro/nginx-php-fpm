@@ -62,7 +62,7 @@ NGINX_CONF="/etc/nginx/nginx.conf"
 NGINX_SITE_CONF="/etc/nginx/nginx-site.conf"
 
 sed -i \
-    -e "s/root /app/public;/root ${APP_PUBLIC_DIR};/" \
+    -e "s@root /app/public;@root ${APP_PUBLIC_DIR};@" \
     -e "s/server_name _;/server_name ${SERVER_NAME};/" \
     ${NGINX_SITE_CONF}
 
